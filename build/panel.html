@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЦОДД </title>
+    <title>API карт 2ГИС</title>
+    <link rel="stylesheet" href="css/style.min.css">
+</head>
+
+<body>
+    <div class="map__wrapper">
+        <div id="container" style="height: 100vh;"></div>
+    </div>
+
+    <header class="panel-header">
+        <div class="container">
+            <div class="worker">
+                <div class="worker__avatar">
+                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 22C25.3137 22 28 19.3137 28 16C28 12.6863 25.3137 10 22 10C18.6863 10 16 12.6863 16 16C16 19.3137 18.6863 22 22 22Z" stroke="white" stroke-width="3"/>
+                    <path d="M33.9401 38C33.6201 32.216 31.8501 28 22.0001 28C12.1501 28 10.3801 32.216 10.0601 38" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M12 4.67603C15.0389 2.91748 18.489 1.99424 22 2.00003C33.046 2.00003 42 10.954 42 22C42 33.046 33.046 42 22 42C10.954 42 2 33.046 2 22C2 18.358 2.974 14.94 4.676 12" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="worker__info">
+                    <div class="worker__name">Демидов М.Г.</div>
+                    <div class="worker__description">Сотрудник ЦОДД</div>
+                </div>
+                <p class="worker__name"></p>
+            </div>
+            <div class="navigation">
+                <a href="#" class="active">Карта</a>
+                <a href="#">Обращения</a>
+                <a href="#">Аналитика</a>
+            </div>
+        </div>
+    </header>
+    <aside class="trafficJams">
+        <div class="aside__navigation">
+            <div class="aside__navigation-item active" data-name="jam">Пробки</div>
+            <div class="aside__navigation-item" data-name="accident">ДТП</div>
+        </div>
+        <div class="aside__content">
+            <div class="aside__content-item active" id="jam">
+                <div class="jam-element">
+                    <div>
+                        <p class="address">ул.Школьная, 7</p>
+                        <p class="duration">25 мин</p>
+                    </div>
+                    <p class="rate">6</p>
+                </div>
+                <div class="jam-element">
+                    <div>
+                        <p class="address">ул.Ставропольская, 149</p>
+                        <p class="duration">45 мин</p>
+                    </div>
+                    <p class="rate">8</p>
+                </div>
+                <div class="jam-element">
+                    <div>
+                        <p class="address">ул.Российская, 534</p>
+                        <p class="duration">25 мин</p>
+                    </div>
+                    <p class="rate">6</p>
+                </div>
+                <p class="subtitle">
+                    Потенциальные пробки
+                </p>
+                <div class="pjam-element">
+                    ул.Красных Партизан, 6/2
+                </div>
+                <div class="pjam-element">
+                    ул.Восточно-Кругликовкая, 48
+                </div>
+                <div class="pjam-element">
+                    ул.Сормовская, 2
+                </div>
+            </div>
+            <div class="aside__content-item" id="accident">
+                <div class="accident-element">
+                    Западный обход, 113
+                </div>
+                <div class="accident-element">
+                    ул.Тургенева, 180
+                </div>
+                <div class="accident-element">
+                    ул.Геологическая, 62
+                </div>
+                <div class="accident-element">
+                    ул.Пригородная, 20
+                </div>
+            </div>
+        </div>
+        <section class="search">
+            <div class="input__wrapper">
+                <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4912 0C4.69708 0 0 4.69708 0 10.4912C0 16.2854 4.69708 20.9825 10.4912 20.9825C12.7294 20.9825 14.8038 20.2816 16.5071 19.0874L22.8853 25.4656C23.5978 26.1781 24.7531 26.1781 25.4656 25.4656C26.1781 24.7531 26.1781 23.5978 25.4656 22.8853L19.0874 16.5071C20.2816 14.8038 20.9825 12.7294 20.9825 10.4912C20.9825 4.69708 16.2854 0 10.4912 0ZM2.73684 10.4912C2.73684 6.2086 6.2086 2.73684 10.4912 2.73684C14.7739 2.73684 18.2456 6.2086 18.2456 10.4912C18.2456 14.7739 14.7739 18.2456 10.4912 18.2456C6.2086 18.2456 2.73684 14.7739 2.73684 10.4912Z"/>
+                </svg>                        
+                <input type="text" id="search" placeholder="Поиск по улицам, перекрёсткам и т.д" autocomplete="off"></input>
+                
+                <button class="accordion" id="accord-btn">
+                    <svg viewBox="0 0 29 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.2699 16.6054L28.2831 2.33551L25.9048 0L15.8781 10.2104L14.2699 11.9652L12.5448 10.2395L2.33551 0.21392L0 2.59221L14.2699 16.6054Z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="accordionContent">
+                <span class="selected">Мероприятия</span>
+                <span>Тепловые зоны</span>
+                <span>Дорожные работы</span>
+                <span class="selected">Природные зоны</span>
+                <span>Завалы</span>
+                <span>Мероприятия</span>
+                <span>Тепловые зоны</span>
+                <span>Завалы</span> 
+            </div>
+            <div class="suggestions"></div>
+        </section>
+        <section id="charts">
+            <div class="chart-item">
+                <p class="percentage" style="color:#EC5454;">90%</p>
+                <svg class="circle-chart" viewbox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="circle-chart__background" stroke="#ffffff" stroke-width="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                    <circle class="circle-chart__circle" stroke="#EC5454" stroke-width="2" stroke-dasharray="90,100" stroke-linecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                  </svg>
+                  <p class="chart-d">Бал пробок</p>
+            </div>
+            <div class="chart-item">
+                <p class="percentage" style="color:#FCEA75;">40%</p>
+                <svg class="circle-chart" viewbox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="circle-chart__background" stroke="#ffffff" stroke-width="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                    <circle class="circle-chart__circle" stroke="#FCEA75" stroke-width="2" stroke-dasharray="40,100" stroke-linecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                  </svg>
+                  <p class="chart-d">Коэффициент насыщенности</p>
+            </div>
+            <div class="chart-item">
+                <p class="percentage rate" style="color:#67E045;">22км/ч</p>
+                <svg class="circle-chart" viewbox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="circle-chart__background" stroke="#ffffff" stroke-width="2" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                    <circle class="circle-chart__circle" stroke="#67E045" stroke-width="2" stroke-dasharray="10,100" stroke-linecap="round" fill="none" cx="16.91549431" cy="16.91549431" r="15.91549431" />
+                  </svg>
+                  <p class="chart-d">Средняя скорость потока</p>
+            </div>
+            
+
+        </section>
+
+    </aside>
+
+
+    <script src="https://mapgl.2gis.com/api/js/v1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kdbush"></script>
+    <script>
+        const map = new mapgl.Map('container', {
+            center: [38.975313, 45.035470],
+            zoom: 12,
+            zoomControl: false,
+            //trafficControl: 'topRight',
+            key: 'e62bd2eb-fe90-4a50-855f-1765b1513a2c',
+            style: 'f9f80985-9ad5-4dc2-b034-d38d0fa293eb',
+        });
+        map.setMinZoom(11);
+        map.setMaxZoom(20);
+        map.showTraffic();
+        // manually collected points
+        // const points = [];
+        // map.on('click', function(e){
+        //     points.push(e.lngLat)
+        //     console.log(points.length)
+
+        //     if(points.length > 100){
+        //         console.log(JSON.stringify(points))
+        //     }
+        // })
+
+
+        //console.log(points)
+        // i = 0;
+        // const pointCluster = new Map();
+        // while (i < points.length) {
+        //     const closestPoints = [];
+        //     j = 0
+        //     while (j < )
+        //         const difference = 1500;
+
+        //     pointCluster.set(points[i], closestPoints)
+        // }
+        // const test = [[39.01116214871298, 45.12701954130559], [39.01124797954017, 45.12296209291248]]
+        // console.log(Math.sqrt(((111000 * Math.abs(45.12296209291248 - 45.12701954130559)) ** 2) + ((84000 * Math.abs(39.01124797954017 - 39.01116214871298)) ** 2)));
+        //const points = 
+
+        // Функция для вычисления ближайших точек
+        // function findNeighbors(points, cellSize = 0.007) {
+        //     const result = new Map(); // Итоговый Map для хранения точек и их соседей
+        //     const grid = new Map(); // Сетка для хранения точек по клеткам
+
+        //     // Преобразование максимальной дистанции в квадрат для оптимизации
+        //     const maxDistanceSquared = cellSize ** 2;
+
+        //     // Поместить точки в сетку
+        //     points.forEach(([x, y], index) => {
+        //         const cellX = Math.floor((x - 45) / cellSize);
+        //         const cellY = Math.floor((y - 38.9) / cellSize);
+        //         const cellKey = `${cellX},${cellY}`;
+
+        //         if (!grid.has(cellKey)) grid.set(cellKey, []);
+        //         grid.get(cellKey).push({ index, coords: [x, y] });
+        //     });
+
+        //     // Функция для вычисления квадратного евклидова расстояния
+        //     function squaredDistance([x1, y1], [x2, y2]) {
+        //         return (x1 - x2) ** 2 + (y1 - y2) ** 2;
+        //     }
+
+        //     // Поиск ближайших соседей для каждой точки
+        //     points.forEach(([x, y], index) => {
+        //         const neighbors = [];
+        //         const cellX = Math.floor((x - 45) / cellSize);
+        //         const cellY = Math.floor((y - 38.9) / cellSize);
+
+        //         // Проверяем текущую и соседние клетки (3x3 область)
+        //         for (let dx = -1; dx <= 1; dx++) {
+        //             for (let dy = -1; dy <= 1; dy++) {
+        //                 const neighborCellKey = `${cellX + dx},${cellY + dy}`;
+        //                 if (grid.has(neighborCellKey)) {
+        //                     grid.get(neighborCellKey).forEach(({ index: neighborIndex, coords: neighborCoords }) => {
+        //                         if (neighborIndex !== index) {
+        //                             const distSquared = squaredDistance([x, y], neighborCoords);
+        //                             if (distSquared <= maxDistanceSquared) {
+        //                                 neighbors.push(neighborCoords);
+        //                             }
+        //                         }
+        //                     });
+        //                 }
+        //             }
+        //         }
+
+        //         // Сохраняем соседей в итоговый Map
+        //         result.set([x, y], neighbors);
+        //     });
+
+        //     return result;
+        // }
+
+
+
+        // Запуск функции
+        // const neighborsMap = findNeighbors(points);
+        // function getNeighbors(map, point) {
+        //     // Проходим по всем ключам Map, чтобы найти совпадение по значению
+        //     for (const [key, neighbors] of map.entries()) {
+        //         if (key[0] === point[0] && key[1] === point[1]) {
+        //             return neighbors;
+        //         }
+        //     }
+        //     return []; // Если точка не найдена
+        // }
+
+        // new mapgl.Marker(map, {
+        //     coordinates: points[650],
+        // });
+        // for (let neighbor of getNeighbors(neighborsMap, points[0])) {
+        //     new mapgl.Marker(map, {
+        //         coordinates: neighbor,
+        //     });
+        // }
+        // for(let i = 0; i < points.length; i++){
+        //     (new mapgl.Marker(map, {
+        //         coordinates: points[i],
+        //     }));
+        // }
+
+    </script>
+
+    <script src="js/main.min.js"></script>
+</body>
+
+</html>
